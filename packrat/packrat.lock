@@ -1,0 +1,20 @@
+PackratFormat: 1.4
+PackratVersion: 0.4.8.1
+RVersion: 3.3.1
+Repos: CRAN=https://cran.rstudio.com/
+
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.8
+Hash: 79c7d5a8684e44e0e3426d3093aa7d90
+Requires: bitops
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: 67d0775189fd0041d95abca618c5c07e
+
+Package: packrat
+Source: CRAN
+Version: 0.4.8-1
+Hash: 6ad605ba7b4b476d84be6632393f5765
