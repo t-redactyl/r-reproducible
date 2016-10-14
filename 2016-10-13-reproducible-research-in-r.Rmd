@@ -48,12 +48,29 @@ cleaningData <- function(data, startrow, columnyear, year, colsToKeep, columnNam
   df
 }
 
-
 life <- cleaningData(life, 2, "X.1", " 2015", c("X", "X.1", "Life.expectancy.at.birth..years."),
                       c("Country", "Year", "LifeExpectancy"))
 ```
 
+## Why did I do it?
 
+## How did I set it up?
+
+Like with Python, your scripts in R can fail because you are using the wrong version of a library, or because two different libraries that you have installed globally don't play nicely together. R has a similar solution to Python's virtualenvs called [packrat](https://rstudio.github.io/packrat/) which allows you to keep track of your analyses' dependencies.
+
+Packrat is a library that allows you to create a special kind of directory which works in a very similar manner to a virtualenv. While you are within the packrat 
+
+
+Any packages you install from inside a packrat project are only available to that project; and packages you install outside of the project are not available to the project.
+
+This is what we mean by “isolation” and it’s a Very Good Thing, as it means that upgrading a package for one project won’t break a totally different project that just happens to reside on the same machine, even if that package contained incompatible changes.
+
+A packrat project contains a few extra files and directories. The init() function creates these files for you, if they don’t already exist.
+
+packrat/packrat.lock: Lists the precise package versions that were used to satisfy dependencies, including dependencies of dependencies. (This file should never be edited by hand!)
+
+
+contains a *lock file*. Like with virtualenvs, the lock file keeps track of every library 
 
 
 
