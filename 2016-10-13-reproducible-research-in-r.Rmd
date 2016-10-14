@@ -58,19 +58,15 @@ life <- cleaningData(life, 2, "X.1", " 2015", c("X", "X.1", "Life.expectancy.at.
 
 Like with Python, your scripts in R can fail because you are using the wrong version of a library, or because two different libraries that you have installed globally don't play nicely together. R has a similar solution to Python's virtualenvs called [packrat](https://rstudio.github.io/packrat/) which allows you to keep track of your analyses' dependencies.
 
-Packrat is a library that allows you to create a special kind of directory which works in a very similar manner to a virtualenv. While you are within the packrat 
+Packrat is an R library that allows you to create a special kind of directory which works in a very similar manner to a virtualenv. While you are within the packrat directory, any libraries you install are *isolated**: these libraries are only available to the specific project, and your project cannot access any libraries installed outside of your project. Packrat folders are able to keep track of your dependencies due to the presence of a **lock file**, which simply keeps track of what libraries you installed and their versions.
+
+### How do I set up a packrat file?
+
+I'll run through how to set up a packrat directory as part on an RStudio project, but [there](https://rstudio.github.io/packrat/walkthrough.html) is also a great tutorial by RStudio on how to do so independent of a project.
 
 
-Any packages you install from inside a packrat project are only available to that project; and packages you install outside of the project are not available to the project.
-
-This is what we mean by “isolation” and it’s a Very Good Thing, as it means that upgrading a package for one project won’t break a totally different project that just happens to reside on the same machine, even if that package contained incompatible changes.
-
-A packrat project contains a few extra files and directories. The init() function creates these files for you, if they don’t already exist.
-
-packrat/packrat.lock: Lists the precise package versions that were used to satisfy dependencies, including dependencies of dependencies. (This file should never be edited by hand!)
 
 
-contains a *lock file*. Like with virtualenvs, the lock file keeps track of every library 
 
 
 
