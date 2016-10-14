@@ -6,7 +6,7 @@ tags: R, programming tips, packrat, tidyverse,
 keywords: rlanguage, 
 ---
 
-[A couple of weeks ago]({filename}2016-10-04-reproducible-research-in-python.md), I wrote a post giving you an introduction on [reproducible research](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research) in Python. While the principles of reproducibility stay the same no matter the language you are using, there are some specific libraries and tools that R has that differ from Python. In this blog post, I'll fill you in on how I conduct a reproducible analysis in R and, like with Python, you'll see how straightforward it is!
+[A couple of weeks ago]({filename}2016-10-04-reproducible-research-in-python.md), I wrote a post giving you an introduction to [reproducible research](https://en.wikipedia.org/wiki/Reproducibility#Reproducible_research) in Python. While the principles of reproducibility stay the same no matter the language you are using, there are some specific libraries and tools that R has that differ from Python. In this blog post, I'll fill you in on how I conduct a reproducible analysis in R and, like with Python, you'll see how straightforward it is!
 
 ## Recap: What is reproducible research?
 
@@ -22,9 +22,9 @@ As I explained in the last post, I use [Git](https://git-scm.com/) and [Github](
 
 ## What did I do?
 
-As I spoke about in the last post, one of the biggest issues you will face with remembering what you did in your analysis is if you do things manually. As with Python, R has some great libraries for downloading data from online sources and cleaning up those data once you've imported them.
+As I spoke about in the last post, one of the biggest issues you will face with remembering what you did in your analysis is if you do things manually. As with Python, R has some great functionality for downloading data from online sources and cleaning up those data once you've imported them.
 
-Below I've created a function using the `getURL` sand `textConnection` functions from the RCurl package. You can see how simple it is to get your data from online into a data.frame in a couple of lines of code. Best of all, it is completely reproducible!
+It is simple to access structured data from online sources and import them as a data.frame in a couple of lines of code. Below I've created a function using the `getURL` and `textConnection` functions from the RCurl package to download the .csv file containing the life expectancy data. As well as being easy, it is completely reproducible!
 
 ```{r, eval = FALSE}
 install.packages("RCurl"); library(RCurl)
@@ -38,7 +38,7 @@ dataImport <- function(dataurl) {
 life <- dataImport("http://apps.who.int/gho/athena/data/xmart.csv?target=GHO/WHOSIS_000001,WHOSIS_000015&profile=crosstable&filter=COUNTRY:*&x-sideaxis=COUNTRY;YEAR&x-topaxis=GHO;SEX")
 ```
 
-R also has great functionality for cleaning up datasets. Below, you can see I was able to create a short function using only R's base functions to select the appropriate subset of columns and rows, as well as rename the remaining columns in the data.frame.
+R also has great functionality for cleaning up datasets. Below, you can see I was able to create a short function using only R's base commands to select the appropriate subset of columns and rows in our newly imported dataset, as well as rename the remaining columns in the data.frame.
 
 ```{r, eval = FALSE}
 cleaningData <- function(data, startrow, columnyear, year, colsToKeep, columnNames) {
@@ -54,11 +54,30 @@ life <- cleaningData(life, 2, "X.1", " 2015", c("X", "X.1", "Life.expectancy.at.
 
 ## Why did I do it?
 
-Like Python, R has its own literate statistical programming tooling called [R Markdown](http://rmarkdown.rstudio.com/). Just like with Juypter notebooks, you can write chunks of markdown text alongside R code, meaning you can write easy-to-read, meaningful annotations to your analysis code. You can also include results, tables and charts, which means you can create reports and other documents within one self-contained R markdown script. In fact, [Mauricio](https://twitter.com/pachamaltese) and I wrote [our book](https://leanpub.com/hitchhikers_ggplot2) entirely using R markdown!
+Like Python, R has its own literate statistical programming tooling called [R Markdown](http://rmarkdown.rstudio.com/). Just like with Juypter notebooks, you can write chunks of markdown text alongside R code meaning you can create easy-to-read, meaningful annotations for your analysis code. You can also include results, tables and charts, allowing you to create reports and other documents within one self-contained R Markdown script. In fact, [Mauricio](https://twitter.com/pachamaltese) and I wrote [our book](https://leanpub.com/hitchhikers_ggplot2) on graphing in ggplot2 entirely using R Markdown!
 
-### How do I set up an R markdown document?
+### How do I set up an R Markdown document?
 
-R markdown documents can be created within RStudio (like much of the best R functionality!). To open a new R markdown documents,  
+R Markdown documents can be created within RStudio (like much of the best R functionality!). To open a new R Markdown document, simply choose 'R Markdown' as the type when creating a new file. You'll be asked to give your R Markdown document a title; I've called this one 'R Markdown example'. Simply then click 'OK' to initialise.
+
+```{r, eval = FALSE}
+#<img src="/figure/rmarkdown_setup.png" title="Setting up an Rmd file" #style="display: block; margin: auto;" />
+```
+
+R Markdown documents automatically start with a template. As you can see, there are two types of code within an R Markdown document. Code is placed within chunks, delimited by backticks and `{r}`. There are [many options](http://rmarkdown.rstudio.com/authoring_rcodechunks.html) available that allow you to customise how the code is presented and run within R Markdown documents, but their default is to run whatever R code is inside them. Outside of the chunks, any text written is recognised as markdown. To run an R Markdown document, simply press the 'Knit HTML' button at the top of the document. This renders the markdown and executes the R code, giving a HTML document in return.
+
+```{r, eval = FALSE}
+#<img src="/figure/rmarkdown_example_1.png" title="The default Rmd example file" #style="display: block; margin: auto;" />
+```
+
+You can export R Markdown documents in a variety of formats, which you can control by using the `knit` function. To do this, we feed in our R Markdown file as the input, and specify the new, rendered file and your desired format as the output. Here, I'm rendering our example document as a regular markdown file:
+
+```{r, eval = FALSE}
+install.packages("knitr"); library(knitr)
+
+knit("/Users/jodieburchell/Documents/r-reproducible/R Markdown example.Rmd", 
+     output = "/Users/jodieburchell/Documents/r-reproducible/R Markdown example.md")
+```
 
 ## How did I set it up?
 
