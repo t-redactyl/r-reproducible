@@ -64,6 +64,32 @@ Packrat is an R library that allows you to create a special kind of directory wh
 
 I'll run through how to set up a packrat directory as part on an RStudio project, but [there](https://rstudio.github.io/packrat/walkthrough.html) is also a great tutorial by RStudio on how to do so independent of a project.
 
+The first step is to globally install packrat on your machine.
+
+```{r}
+install.packages("packrat")
+```
+
+Once you've done that, restart Rstudio. This should be the only time you need to do this. Once you're back in RStudio, create a new RStudio project in a new directory (instructions on how to do this [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)). At this point, you'll be asked to name your new project, and most importantly, indicate whether you want to make it a packrat project. As you can see below, it is as simple as ticking a box to initialise your packrat directory!
+
+<img src="/figure/packrat_setup_1.png" title="Setting up a packrat project" alt="Look, it's easy!" style="display: block; margin: auto;" />
+
+Once we've created our new RStudio project with packrat, you can see we have a new folder in our directory called 'packrat'. Among other things, this is where your lock file lives that keeps track of all of the packages you install.
+
+<img src="/figure/packrat_setup_2.png" title="Your new packrat project" alt="Check out the new packrat folder!" style="display: block; margin: auto;" />
+
+Installing libraries is super simple - while we are in our project we can use the regular `install.packages` command, and it will keep the installation limited to this specific project. Let's install `ggplot2`.
+
+```{r}
+install.packages("ggplot2"); library(ggplot2)
+```
+
+Ok, so how do bundle up our project to share it with others, or use it ourselves later?
+
+
+
+
+
 
 
 
