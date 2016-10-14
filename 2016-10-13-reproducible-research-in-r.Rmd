@@ -26,7 +26,7 @@ As I spoke about in the last post, one of the biggest issues you will face with 
 
 Below I've created a function using the `getURL` sand `textConnection` functions from the RCurl package. You can see how simple it is to get your data from online into a data.frame in a couple of lines of code. Best of all, it is completely reproducible!
 
-```{r}
+```{r, eval = FALSE}
 install.packages("RCurl"); library(RCurl)
 
 dataImport <- function(dataurl) {
@@ -40,7 +40,7 @@ life <- dataImport("http://apps.who.int/gho/athena/data/xmart.csv?target=GHO/WHO
 
 R also has great functionality for cleaning up datasets. Below, you can see I was able to create a short function using only R's base functions to select the appropriate subset of columns and rows, as well as rename the remaining columns in the data.frame.
 
-```{r}
+```{r, eval = FALSE}
 cleaningData <- function(data, startrow, columnyear, year, colsToKeep, columnNames) {
   df <- data[c(startrow:nrow(data)) & data[[columnyear]] == year, ]
   df <- df[ , colsToKeep]
@@ -54,6 +54,12 @@ life <- cleaningData(life, 2, "X.1", " 2015", c("X", "X.1", "Life.expectancy.at.
 
 ## Why did I do it?
 
+Like Python, R has its own literate statistical programming tooling called [R Markdown](http://rmarkdown.rstudio.com/). Just like with Juypter notebooks, you can write chunks of markdown text alongside R code, meaning you can write easy-to-read, meaningful annotations to your analysis code. You can also include results, tables and charts, which means you can create reports and other documents within one self-contained R markdown script. In fact, [Mauricio](https://twitter.com/pachamaltese) and I wrote [our book](https://leanpub.com/hitchhikers_ggplot2) entirely using R markdown!
+
+### How do I set up an R markdown document?
+
+R markdown documents can be created within RStudio (like much of the best R functionality!). To open a new R markdown documents,  
+
 ## How did I set it up?
 
 Like with Python, your scripts in R can fail because you are using the wrong version of a library, or because two different libraries that you have installed globally don't play nicely together. R has a similar solution to Python's virtualenvs called [packrat](https://rstudio.github.io/packrat/) which allows you to keep track of your analyses' dependencies.
@@ -66,25 +72,35 @@ I'll run through how to set up a packrat directory as part on an RStudio project
 
 The first step is to globally install packrat on your machine.
 
-```{r}
+```{r, eval = FALSE}
 install.packages("packrat")
 ```
 
 Once you've done that, restart Rstudio. This should be the only time you need to do this. Once you're back in RStudio, create a new RStudio project in a new directory (instructions on how to do this [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)). At this point, you'll be asked to name your new project, and most importantly, indicate whether you want to make it a packrat project. As you can see below, it is as simple as ticking a box to initialise your packrat directory!
 
-<img src="/figure/packrat_setup_1.png" title="Setting up a packrat project" alt="Look, it's easy!" style="display: block; margin: auto;" />
-
+```{r, eval = FALSE}
+#<img src="/figure/packrat_setup_1.png" title="Setting up a packrat project" alt="Look, it's easy!" #style="display: block; margin: auto;" />
+```
+  
 Once we've created our new RStudio project with packrat, you can see we have a new folder in our directory called 'packrat'. Among other things, this is where your lock file lives that keeps track of all of the packages you install.
 
-<img src="/figure/packrat_setup_2.png" title="Your new packrat project" alt="Check out the new packrat folder!" style="display: block; margin: auto;" />
-
+```{r, eval = FALSE}
+#<img src="/figure/packrat_setup_2.png" title="Your new packrat project" alt="Check out the new packrat folder!" #style="display: block; margin: auto;" />
+```
+  
 Installing libraries is super simple - while we are in our project we can use the regular `install.packages` command, and it will keep the installation limited to this specific project. Let's install `ggplot2`.
 
-```{r}
+```{r, eval = FALSE}
 install.packages("ggplot2"); library(ggplot2)
 ```
 
-Ok, so how do bundle up our project to share it with others, or use it ourselves later?
+RStudio projects with packrat are set up with automatic snapshots, meaning that packrat keeps track of any changes you make to your project dependencies without you needing to explicitly snapshot them yourself.
+
+Finally, sharing, or coming back to your own project on a different machine is really simple. RStudio does pretty much all of the heavy lifting, so all you need to do is install the project directory on the new machine and open the project in RStudio. All of the project dependencies will be automatically installed, leaving you ready to pick up the project and go from where you left off. 
+
+In my mind, the simplest way to share your RStudio project directory is by pushing it to a remote repo on something like Github, and cloning it to your machine when you next need to work on it. As discussed in the previous post, this also has the additional advantage of allowing you to keep track of changes to your project. 
+
+
 
 
 
